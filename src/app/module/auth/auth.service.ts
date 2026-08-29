@@ -331,5 +331,5 @@ export const AuthService = {
 	loginUser,
 	getMe,
 	refreshToken,
-	googleLogin,
+	googleLogin
 };
