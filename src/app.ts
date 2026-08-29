@@ -1,3 +1,5 @@
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
+// biome-ignore assist/source/organizeImports: <explanation>
 import { Payload } from "./generated/prisma/internal/prismaNamespace";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -13,6 +15,7 @@ import config from "./app/config";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
 import { Agent } from "node:http";
 
 const app: Application = express();
