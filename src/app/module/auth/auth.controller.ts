@@ -183,6 +183,8 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+
+
 export const AuthController = {
 	registerPatient,
 	loginUser,
