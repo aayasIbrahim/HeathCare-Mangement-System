@@ -35,35 +35,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", AuthRoutes);
 
-app.post("/zod", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userZodSchema = z.object({
-      name: z.string().endsWith("s"),
-      email: z.email(),
-      age: z.number().optional(),
-      isVerify: z.boolean().optional(),
-      booking: z.array(z.string()),
-    });
-    const payload = req.body;
-    const result = userZodSchema.safeParse(payload);
-    if (!result.success) {
-      console.log(result.error);
-    }
-    if (result.success) {
-      console.log(result.data);
-    }
 
-    res.status(httpStatus.OK).json({
-      success: true,
-      message: "Welcome to PH Healthcare System Backend",
-      data: result,
-    });
-  } catch (error) {
-    console.error(error);
-
-    next(error);
-  }
-});
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
