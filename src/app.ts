@@ -14,6 +14,7 @@ import config from "./app/config";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
+import { getBkashIdToken } from "./app/lib/bkash";
 
 const app: Application = express();
 
@@ -38,6 +39,15 @@ app.get("/", async (req: Request, res: Response) => {
     message: "Welcome to PH Healthcare System Backend",
   });
 });
+app.get("/test", async (req: Request, res: Response) => {
+  const id = await getBkashIdToken();
+  console.log("bkashtokenId", id);
+  res.status(httpStatus.OK).json({
+    success: true,
+    message: "Welcome to PH Healthcare System Backend",
+  });
+});
+
 app.use("/api/v1/auth", AuthRoutes);
 
 app.use(globalErrorHandler);
