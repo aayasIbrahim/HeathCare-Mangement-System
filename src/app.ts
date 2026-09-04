@@ -15,6 +15,7 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 import { getBkashIdToken } from "./app/lib/bkash";
+import { AppointementRoutes } from "./app/module/appointment/appointment.route";
 
 const app: Application = express();
 
@@ -49,6 +50,7 @@ app.get("/test", async (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/appointment",AppointementRoutes)
 
 app.use(globalErrorHandler);
 app.use(notFound);
