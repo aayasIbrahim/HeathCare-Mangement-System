@@ -76,6 +76,7 @@ const bookAppointmentCallback = async (query : Record<string, any>) => {
     })
 
     const executedPaymentResult = await executedPaymentResponse.json()
+    console.log(executedPaymentResponse )
 
 
     if(status === "success"){
