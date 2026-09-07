@@ -22,7 +22,7 @@ model Doctor {
 
   resume          String?
   resumePublicId   String?
-  additionalFiles Json? // Array of file URLs or file metadata // Stores: [{ url: "...", publicId: "..." }]
+  additionalFiles Json? // Array of file URLs or file metadata // Stores: [{ url: "...", publicId: "..." }]  
 
 
   isDeleted Boolean   @default(false)
