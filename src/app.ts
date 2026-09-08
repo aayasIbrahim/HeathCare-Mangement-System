@@ -16,8 +16,9 @@ import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 
 import { AppointementRoutes } from "./app/module/appointment/appointment.route";
-import { DoctorRoutes } from "./app/module/doctor/doctor.route";
+
 import { UserRoutes } from "./app/module/user/user.route";
+import { DoctorRoutes } from "./app/module/doctor/doctor.route";
 
 const app: Application = express();
 
