@@ -16,6 +16,8 @@ import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 
 import { AppointementRoutes } from "./app/module/appointment/appointment.route";
+
+import { UserRoutes } from "./app/module/user/user.route";
 import { DoctorRoutes } from "./app/module/doctor/doctor.route";
 
 const app: Application = express();
@@ -34,6 +36,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/user", UserRoutes);
+app.use("/api/v1/appointment", AppointementRoutes);
+app.use("/api/v1/doctor", DoctorRoutes);
+
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
   res.status(httpStatus.OK).json({
@@ -41,11 +48,6 @@ app.get("/", async (req: Request, res: Response) => {
     message: "Welcome to Healthcare System Backend",
   });
 });
-
-
-app.use("/api/v1/auth", AuthRoutes);
-app.use("/api/v1/appointment",AppointementRoutes)
-app.use("/api/v1/doctor",DoctorRoutes)
 
 app.use(globalErrorHandler);
 app.use(notFound);
