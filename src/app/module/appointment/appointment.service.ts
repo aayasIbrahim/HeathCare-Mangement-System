@@ -164,6 +164,11 @@ const bookAppointment = async (payload: IBookAppointmentPayload , user: RequestU
 	return transactionResult;
 };
 
+
+/**
+ * Generates a new bKash payment URL for an existing PENDING appointment 
+ * and updates the corresponding payment record in the database.
+ */
 const payAppointment = async (payload: IPayAppointmentPayload, user: RequestUser) => {
 	const appointmentId = payload.appointmentId;
 

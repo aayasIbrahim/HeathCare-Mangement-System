@@ -15,11 +15,11 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { AuthRoutes } from "./app/module/auth/auth.route";
 
-import { AppointementRoutes } from "./app/module/appointment/appointment.route";
 
 import { UserRoutes } from "./app/module/user/user.route";
 import { DoctorRoutes } from "./app/module/doctor/doctor.route";
 import { ScheduleRoutes } from "./app/module/schedule/schedule.route";
+import { AppointementRoutes } from "./app/module/appointment/appointment.route";
 
 const app: Application = express();
 
