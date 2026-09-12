@@ -195,7 +195,7 @@ psql -V
 ### 1. Clone the repository
 
 ```bash
-git clone <https://github.com/aayasIbrahim/HeathCare-Mangement-System.git>
+git clone https://github.com/aayasIbrahim/HeathCare-Mangement-System.git
 cd "health care mangem system"
 ```
 
@@ -226,7 +226,31 @@ JWT_REFRESH_SECRET=your_refresh_secret
 JWT_ACCESS_EXPIRES_IN=1d
 JWT_REFRESH_EXPIRES_IN=7d
 FRONTEND_URL=http://localhost:3000
+
+SUPER_ADMIN_NAME=Super Admin 1
+SUPER_ADMIN_EMAIL=superadmin@gmail.com
+SUPER_ADMIN_PASSWORD=Super@admin12345
+
+TESTER_ADMIN_NAME=Tester Admin 1
+TESTER_ADMIN_EMAIL=testeradmin@gmail.com
+TESTER_ADMIN_PASSWORD=Tester@admin12345
+
+TESTER_DOCTOR_NAME=Tester Doctor 1
+TESTER_DOCTOR_EMAIL=testerdoctor@gmail.com
+TESTER_DOCTOR_PASSWORD=Tester@doctor12345
 ```
+
+### Default seeded login accounts
+
+These credentials are not required to be entered manually in the `.env` file for normal app usage. They are built-in seeded accounts that the application creates during startup for local testing and admin access.
+
+| Role          | Email                    | Password             |
+| ------------- | ------------------------ | -------------------- |
+| Super Admin   | `superadmin@gmail.com`   | `Super@admin12345`   |
+| Tester Admin  | `testeradmin@gmail.com`  | `Tester@admin12345`  |
+| Tester Doctor | `testerdoctor@gmail.com` | `Tester@doctor12345` |
+
+Use these email/password pairs when logging in through the app UI or API. Regular users can also register a new patient account directly with the register endpoint.
 
 ### 4. Generate the Prisma client
 
