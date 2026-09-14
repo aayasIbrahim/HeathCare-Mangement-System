@@ -401,7 +401,10 @@ http://localhost:5000
 
 ### Postman collection
 
-The complete Postman collection is available in `postman/healthcare-api.postman_collection.json`, with a matching local environment in `postman/healthcare-local.postman_environment.json`.
+Postman files:
+
+- Collection: [postman/healthcare-api.postman_collection.json](postman/healthcare-api.postman_collection.json)
+- Environment: [postman/healthcare-local.postman_environment.json](postman/healthcare-local.postman_environment.json)
 
 1. Import both JSON files into Postman.
 2. Select the `PH Healthcare - Local` environment and keep the default `baseUrl` unless the server uses another port.
