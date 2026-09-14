@@ -1,0 +1,530 @@
+{
+  "info": {
+    "_postman_id": "b83f2f1d-0e57-4d72-a1d4- healthcare-api",
+    "name": "Healthcare System API",
+    "description": "Complete API collection for the PH Healthcare System backend. Start with Auth > Login as Tester Admin, Tester Doctor, or register and verify a patient. Protected requests use the captured accessToken automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('HTTP status is successful', function () {",
+          "  pm.expect(pm.response.code).to.be.within(200, 399);",
+          "});",
+          "if (pm.response.headers.get('Content-Type') && pm.response.headers.get('Content-Type').includes('application/json')) {",
+          "  const body = pm.response.json();",
+          "  pm.test('JSON response has success flag', function () { pm.expect(body).to.have.property('success'); });",
+          "  if (body.data && body.data.accessToken) pm.environment.set('accessToken', body.data.accessToken);",
+          "  if (body.data && body.data.refreshToken) pm.environment.set('refreshToken', body.data.refreshToken);",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "accessToken", "value": "" },
+    { "key": "refreshToken", "value": "" },
+    { "key": "patientEmail", "value": "patient@example.com" },
+    { "key": "patientPassword", "value": "Patient@123" },
+    { "key": "otp", "value": "000000" },
+    { "key": "scheduleId", "value": "replace-with-schedule-id" },
+    { "key": "appointmentId", "value": "replace-with-appointment-id" },
+    { "key": "paymentId", "value": "replace-with-payment-id" },
+    { "key": "doctorId", "value": "replace-with-doctor-id" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/" },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register patient",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Patient\",\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientPassword}}\",\n  \"patient\": {\n    \"contactNumber\": \"+8801700000000\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/register"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify patient email",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"otp\": \"{{otp}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/verify-email"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientPassword}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          },
+          "response": []
+        },
+        {
+          "name": "Current user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/auth/me"
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/auth/refresh-token"
+          },
+          "response": []
+        },
+        {
+          "name": "Google login",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idToken\": \"replace-with-google-id-token\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/google"
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot password",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/forgot-password"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset password",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"newPassword\": \"Patient@456\",\n  \"otp\": \"{{otp}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/reset-password"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Doctor",
+      "item": [
+        {
+          "name": "Apply as doctor",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "value": "{\"user\":{\"name\":\"Test Doctor\",\"email\":\"doctor@example.com\"},\"doctor\":{\"address\":\"Dhaka, Bangladesh\",\"specialization\":\"Cardiology\",\"licenseNumber\":\"BMDC-12345\",\"qualifications\":\"MBBS, FCPS\",\"experienceYears\":5,\"bio\":\"Experienced physician\",\"consultationFee\":1000,\"contactNumber\":\"+8801700000000\"}",
+                  "type": "text"
+                },
+                { "key": "resume", "type": "file", "src": "" },
+                { "key": "additionalFiles", "type": "file", "src": "" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/doctor/apply-as-doctor"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify doctor email",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"doctor@example.com\",\n  \"otp\": \"{{otp}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/doctor/apply-as-doctor/verify-email"
+          },
+          "response": []
+        },
+        {
+          "name": "Approve doctor (admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": \"{{doctorId}}\",\n  \"verificationStatus\": \"APPROVED\",\n  \"rejectionReason\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/doctor/approve-doctor"
+          },
+          "response": []
+        },
+        {
+          "name": "List doctors (admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/doctor/all-doctors?page=1&limit=10"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Upload profile image",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "profileImage", "type": "file", "src": "" }]
+            },
+            "url": "{{baseUrl}}/api/v1/user/profile-image"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Schedule",
+      "item": [
+        {
+          "name": "Create schedule (doctor)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startDateTime\": \"2026-09-20T10:00:00.000Z\",\n  \"endDateTime\": \"2026-09-20T11:00:00.000Z\",\n  \"meetingLink\": \"https://meet.example.com/healthcare\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/schedule/create-schedule"
+          },
+          "response": []
+        },
+        {
+          "name": "My schedules (doctor)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/my-schedules?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "All schedules (admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/all-schedules?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "Today's schedules",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/todays-schedule"
+          },
+          "response": []
+        },
+        {
+          "name": "Update schedule (doctor)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meetingLink\": \"https://meet.example.com/updated\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/schedule/update-schedule/{{scheduleId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Publish schedule (doctor)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/publish-schedule/{{scheduleId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Get schedule by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/{{scheduleId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete schedule (doctor)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/schedule/{{scheduleId}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointment",
+      "item": [
+        {
+          "name": "Book appointment (patient)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduleId\": \"{{scheduleId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/appointment/book-appointment"
+          },
+          "response": []
+        },
+        {
+          "name": "Pay appointment (patient)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentId\": \"{{appointmentId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/appointment/pay-appointment"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel appointment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentId\": \"{{appointmentId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/appointment/cancel-appointment"
+          },
+          "response": []
+        },
+        {
+          "name": "Payment callback",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/appointment/book-appointment/payment/callback?status=success&paymentID=replace-me"
+          },
+          "response": []
+        },
+        {
+          "name": "Update appointment status (doctor)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"COMPLETED\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/appointment/update-status/{{appointmentId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "My appointments (patient)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/appointment/my-appointments?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "Doctor appointments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/appointment/doctor-appointments?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "All appointments (admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/appointment/all-appointments?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "Get appointment by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/appointment/{{appointmentId}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "My payments (patient)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/payment/my-payments?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "All payments (admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/payment/all-payments?page=1&limit=10"
+          },
+          "response": []
+        },
+        {
+          "name": "Get payment by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/payment/{{paymentId}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prescription",
+      "item": [
+        {
+          "name": "Create prescription (doctor)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentId\": \"{{appointmentId}}\",\n  \"findings\": \"Patient requires continued monitoring\",\n  \"medicines\": [\n    {\n      \"name\": \"Example Medicine\",\n      \"dosage\": \"500 mg twice daily\",\n      \"duration\": \"7 days\",\n      \"instructions\": \"Take after meals\"\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/prescription/create-prescription"
+          },
+          "response": []
+        },
+        {
+          "name": "Get prescription by appointment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/prescription/{{appointmentId}}"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Patient analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/analytics/patient-analytics"
+          },
+          "response": []
+        },
+        {
+          "name": "Doctor analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/analytics/doctor-analytics"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/analytics/admin-analytics"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
