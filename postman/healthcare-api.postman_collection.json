@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "b83f2f1d-0e57-4d72-a1d4- healthcare-api",
-    "name": "PH Healthcare System API",
+    "name": "Healthcare System API",
     "description": "Complete API collection for the PH Healthcare System backend. Start with Auth > Login as Tester Admin, Tester Doctor, or register and verify a patient. Protected requests use the captured accessToken automatically.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
