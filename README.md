@@ -399,6 +399,17 @@ http://localhost:5000
 | ------- | ---------------------------- | -------------------------------------- | ------------------------------ |
 | `PATCH` | `/api/v1/user/profile-image` | Admin / Super Admin / Doctor / Patient | Upload or update profile image |
 
+### Postman collection
+
+The complete Postman collection is available in `postman/healthcare-api.postman_collection.json`, with a matching local environment in `postman/healthcare-local.postman_environment.json`.
+
+1. Import both JSON files into Postman.
+2. Select the `PH Healthcare - Local` environment and keep the default `baseUrl` unless the server uses another port.
+3. Run `Auth > Login` with one of the seeded accounts, or register and verify a patient first. Successful authentication automatically stores `accessToken` and `refreshToken` in the environment.
+4. Replace `scheduleId`, `appointmentId`, `paymentId`, and `doctorId` when a request needs an existing record.
+
+The collection includes every registered API route, representative request bodies and multipart fields, Bearer authentication inheritance, and shared tests that check successful HTTP status codes, JSON response envelopes, and token capture.
+
 ### Example registration
 
 ```bash
