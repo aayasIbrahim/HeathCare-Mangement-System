@@ -19,6 +19,7 @@ const applyAsDoctor = catchAsync(async (req: Request, res: Response) => {
 	if (!zodValidationResult.success) {
 		throw new AppError(httpStatus.BAD_REQUEST, zodValidationResult.error.issues[0].message);
 	}
+	
 
 	const payload = zodValidationResult.data;
 
