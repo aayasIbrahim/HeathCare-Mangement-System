@@ -39,7 +39,10 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
   });
 
   if (isUserExists) {
-    throw new AppError(httpStatus.CONFLICT, "User with this email already exists");
+    throw new AppError(
+      httpStatus.CONFLICT,
+      "User with this email already exists",
+    );
   }
 
   const hashedPassword = await bcrypt.hash(password, 8);
@@ -120,6 +123,10 @@ const verifyPatientEmail = async (payload: IVerifyEmailPayload) => {
   }
 
   const otpKey = `patient-registration-otp:${email}`;
+
+  if (config.node_env === "development") {
+    console.log(`[DEV MODE] OTP Key for ${email}: ${otpKey}`);
+  }
 
   const redisOtp = await redisClient.get(otpKey);
 
@@ -234,7 +241,8 @@ const loginUser = async (payload: ILoginUserPayload) => {
   }
 
   if (user.password === null && user.googleId !== null) {
-    throw new AppError(httpStatus.BAD_REQUEST,
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
       "User Already Has Account Registered With Google. Try To Login With Google.",
     );
   }
@@ -300,7 +308,8 @@ const refreshToken = async (token: string) => {
   );
 
   if (!verifiedRefreshToken.success || !verifiedRefreshToken.data) {
-    throw new AppError(httpStatus.UNAUTHORIZED,
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
       config.node_env === "development"
         ? verifiedRefreshToken.error
         : "Invalid refresh token",
@@ -314,7 +323,10 @@ const refreshToken = async (token: string) => {
   });
 
   if (!user || user.isDeleted || user.status !== UserStatus.ACTIVE) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "User is inactive or not found");
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "User is inactive or not found",
+    );
   }
 
   const jwtPayload = {
@@ -353,18 +365,27 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
     googleIdTokenPayload = ticket.getPayload();
   } catch (error) {
     console.log("Google ID Token Verification Failed", error);
-    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Or Expired Google Id Token");
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Invalid Or Expired Google Id Token",
+    );
   }
 
   if (!googleIdTokenPayload) {
-    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Or Expired Google Id Token");
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Invalid Or Expired Google Id Token",
+    );
   }
 
   if (!googleIdTokenPayload.email) {
     throw new AppError(httpStatus.BAD_REQUEST, "Google Email Not Found");
   }
   if (!googleIdTokenPayload.name) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Google Email User Name Not Found");
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Google Email User Name Not Found",
+    );
   }
 
   const ifPatientExistWithGoogleAuth = await prisma.user.findUnique({
